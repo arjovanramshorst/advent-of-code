@@ -43,15 +43,10 @@ pub fn solve(input: &str) -> String {
                 let char = character_matrix.get(xy.y).unwrap().get(xy.x).unwrap();
                 return !char.is_numeric() && char.to_string() != ".";
             });
-            println!("valid: {}, id: {:?}", is_valid, part_number);
-            if !is_valid {
-                println!("{:?}", part_locations);
-            }
             return is_valid;
         })
         .collect();
 
-    println!("{:?}", part_numbers);
     let sum = part_numbers
         .iter()
         .map(|pn| pn.id)
