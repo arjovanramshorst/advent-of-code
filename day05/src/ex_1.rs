@@ -18,7 +18,7 @@ impl Step {
             .mappings
             .iter()
             .find(|mapping| mapping.maps_to(from).is_some());
-        let res = match (mapping) {
+        let res = match mapping {
             Some(mapping) => mapping.maps_to(from).unwrap(),
             None => from,
         };
@@ -29,7 +29,7 @@ impl Step {
 }
 impl Mapping {
     fn maps_to(&self, from: usize) -> Option<usize> {
-        if (from >= self.src && from <= self.src + self.length) {
+        if from >= self.src && from <= self.src + self.length {
             Some(self.dst + from - self.src)
         } else {
             None
