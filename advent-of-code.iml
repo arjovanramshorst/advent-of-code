@@ -9,9 +9,12 @@
       <sourceFolder url="file://$MODULE_DIR$/day03/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/day04/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/day05/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/day06/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/day2401/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/day2402/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/day2403/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/old06/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/day00/target" />
       <excludeFolder url="file://$MODULE_DIR$/day01/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
