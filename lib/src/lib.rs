@@ -1,28 +1,70 @@
-pub trait NrString {
-    fn to_numbers(&self, split: &str) -> Vec<i32>;
-    fn to_numbers_vec_row(&self, split: &str) -> Vec<Vec<i32>>;
-    fn to_numbers_vec_col(&self, split: &str) -> Vec<Vec<i32>>;
+fn parse_numbers<T: std::str::FromStr>(input: &str, split: &str) -> Vec<T> {
+    input
+        .split(split)
+        .filter_map(|it| it.parse::<T>().ok())
+        .collect()
 }
 
-impl NrString for str {
+pub fn transpose<T: Clone>(rows: Vec<Vec<T>>) -> Vec<Vec<T>> {
+    let col_count = rows.get(0).map_or(0, |row| row.len());
+    (0..col_count)
+        .map(|idx| {
+            rows.iter()
+                .filter_map(|row| row.get(idx).cloned())
+                .collect()
+        })
+        .collect()
+}
+
+pub trait NrString<T> {
+    fn to_numbers(&self, split: &str) -> Vec<T>;
+    fn to_numbers_vec_row(&self, split: &str) -> Vec<Vec<T>>;
+    fn to_numbers_vec_col(&self, split: &str) -> Vec<Vec<T>>;
+}
+
+impl NrString<u32> for str {
+    fn to_numbers(&self, split: &str) -> Vec<u32> {
+        parse_numbers(self, split)
+    }
+    fn to_numbers_vec_row(&self, split: &str) -> Vec<Vec<u32>> {
+        self.lines()
+            .map(|line| parse_numbers(line, split))
+            .collect()
+    }
+    fn to_numbers_vec_col(&self, split: &str) -> Vec<Vec<u32>> {
+        let rows = self.to_numbers_vec_row(split);
+        transpose(rows)
+    }
+}
+
+impl NrString<u64> for str {
+    fn to_numbers(&self, split: &str) -> Vec<u64> {
+        parse_numbers(self, split)
+    }
+    fn to_numbers_vec_row(&self, split: &str) -> Vec<Vec<u64>> {
+        self.lines()
+            .map(|line| parse_numbers(line, split))
+            .collect()
+    }
+    fn to_numbers_vec_col(&self, split: &str) -> Vec<Vec<u64>> {
+        let rows = self.to_numbers_vec_row(split);
+        transpose(rows)
+    }
+}
+
+impl NrString<i32> for str {
     fn to_numbers(&self, split: &str) -> Vec<i32> {
-        return self
-            .split(split)
-            .map(|it| it.parse())
-            .filter_map(|it| if it.is_ok() { Some(it.unwrap()) } else { None })
-            .collect();
+        parse_numbers(self, split)
     }
 
     fn to_numbers_vec_row(&self, split: &str) -> Vec<Vec<i32>> {
-        return self.lines().map(|line| line.to_numbers(split)).collect();
+        self.lines()
+            .map(|line| parse_numbers(line, split))
+            .collect()
     }
 
     fn to_numbers_vec_col(&self, split: &str) -> Vec<Vec<i32>> {
         let rows = self.to_numbers_vec_row(split);
-        let col_count = rows[0].iter().count();
-        let cols = (0..col_count)
-            .map(|idx| rows.iter().map(|row| row[idx]).collect())
-            .collect();
-        return cols;
+        transpose(rows)
     }
 }
