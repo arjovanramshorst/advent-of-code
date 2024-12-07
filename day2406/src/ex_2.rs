@@ -9,6 +9,7 @@ pub fn solve(input: &str) -> u64 {
     }));
 
     let mut visited: HashSet<Guard> = HashSet::new();
+    let mut visited_points: HashSet<Point> = HashSet::new();
     let mut obstructions: HashSet<Point> = HashSet::new();
     let map: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
 
@@ -18,11 +19,12 @@ pub fn solve(input: &str) -> u64 {
     while guard.direction != Direction::Finished {
         let mut temp_guard = guard.clone();
         let mut temp_visited: HashSet<Guard> = HashSet::new();
+
         let obstruction_option = catch_unwind(|| {
             let option = temp_guard.direction.step(temp_guard.location);
             // Should panic if step is outside
             let char = map[option.y][option.x];
-            if char != '#' && option != init_location {
+            if char != '#' && option != init_location && !visited_points.contains(&option) {
                 return option;
             } else {
                 panic!()
@@ -43,6 +45,7 @@ pub fn solve(input: &str) -> u64 {
         }
 
         visited.insert(guard.clone());
+        visited_points.insert(guard.location.clone());
         // Walk with this guard until either finished or a visited square is found
         guard = guard.walk(&map, None);
     }

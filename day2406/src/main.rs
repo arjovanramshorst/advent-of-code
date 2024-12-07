@@ -103,7 +103,7 @@ impl Guard {
             }
         });
 
-        match (res) {
+        match res {
             Err(_) => Guard {
                 location: self.location,
                 direction: Direction::Finished,
