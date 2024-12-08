@@ -1,4 +1,7 @@
-fn parse_numbers<T: std::str::FromStr>(input: &str, split: &str) -> Vec<T> {
+use std::collections::HashSet;
+use std::hash::Hash;
+
+pub fn parse_numbers<T: std::str::FromStr>(input: &str, split: &str) -> Vec<T> {
     input
         .split(split)
         .filter_map(|it| it.parse::<T>().ok())
@@ -14,6 +17,25 @@ pub fn transpose<T: Clone>(rows: Vec<Vec<T>>) -> Vec<Vec<T>> {
                 .collect()
         })
         .collect()
+}
+
+pub fn pairs_in_vec<T: Clone>(vec: &[T]) -> Vec<(T, T)> {
+    let mut pairs = Vec::new();
+
+    for i in 0..vec.len() {
+        for j in (i + 1)..vec.len() {
+            let pair = (vec[i].clone(), vec[j].clone());
+            pairs.push(pair);
+        }
+    }
+
+    pairs
+}
+
+#[derive(Debug, Hash, Clone, Copy, Eq, PartialEq)]
+pub struct Point {
+    pub x: usize,
+    pub y: usize,
 }
 
 pub trait NrString<T> {
